@@ -20,9 +20,9 @@
   height: 20rem;
 }
 
-#retry {
+#retry,
+#skip {
   position: absolute;
-  top: 0;
   right: -1.5rem;
   background-color: none;
   color: $gray-light;
@@ -31,6 +31,9 @@
     color: black;
   }
 }
+
+#retry {  top: 0; }
+#skip {  top: 1.5rem; }
 
 #woohoo {
   display: none;
@@ -62,6 +65,7 @@
   font-weight: bold;
   text-align: center;
   z-index: 0;
+  transition: all .3s ease-in-out;
   &[data-number="1"],
   &[data-number="3"],
   &[data-number="6"],
@@ -69,8 +73,7 @@
   &[data-number="9"],
   &[data-number="11"],
   &[data-number="14"] {
-    background-color: #001A57;
-    color: white;
+    background-color: #7BAFD4;
   }
   &[data-number="2"],
   &[data-number="4"],
@@ -80,7 +83,8 @@
   &[data-number="12"],
   &[data-number="13"],
   &[data-number="15"] {
-    background-color: #7BAFD4;
+    background-color: #001A57;
+    color: white;
   }
   &[data-x="0"] { left: 0; }
   &[data-x="1"] { left: 25%; }

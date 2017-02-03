@@ -4,41 +4,60 @@ const num2grid = [[3, 3], [0, 0], [0, 1], [0, 2], [0, 3],
                   [2, 0], [2, 1], [2, 2], [2, 3],
                   [3, 0], [3, 1], [3, 2], [3, 3]];
 
-const shift = (n) => {
+const refresh = () => {
+  $('.piece').each((i, e) => {
+    const  n = parseInt($(e).attr('data-number'), 10);
+    $(e).attr('data-x', num2grid[n][0]);
+    $(e).attr('data-y', num2grid[n][1]);
+  });
+};
+
+const shift = (n, fx = undefined, fy = undefined) => {
+
   const dx = [1, -1, 0,  0];
   const dy = [0,  0, 1, -1];
 
   const nLoc = num2grid[n];
   let hasChanged = false;
 
+  const flip = (x, y, dx, dy) => {
+    grid2num[x][y] = 0;
+    grid2num[x + dx][y + dy] = n;
+    num2grid[n] = num2grid[0];
+    num2grid[0] = nLoc;
+    return true;
+  };
+
   for (let i = 0; i < 4; i++) {
-    if (nLoc[0] + dx[i] < 4 && nLoc[0] + dx[i] >= 0 && nLoc[1] + dy[i] < 4 && nLoc[1] + dy[i] >= 0) {
+    const isValid = (fx === undefined || dx[i] === -fx) && (fy === undefined || dy[i] === -fy);
+    if (isValid && nLoc[0] + dx[i] < 4 && nLoc[0] + dx[i] >= 0 && nLoc[1] + dy[i] < 4 && nLoc[1] + dy[i] >= 0) {
       if (grid2num[nLoc[0] + dx[i]][nLoc[1] + dy[i]] === 0) {
-        grid2num[nLoc[0]][nLoc[1]] = 0;
-        grid2num[nLoc[0] + dx[i]][nLoc[1] + dy[i]] = n;
-        num2grid[n] = num2grid[0];
-        num2grid[0] = nLoc;
-        hasChanged = true;
+        hasChanged = flip(nLoc[0], nLoc[1], dx[i], dy[i]);
         break;
+      } else {
+        const nfx = fx === undefined ? -dx[i] : fx;
+        const nfy = fy === undefined ? -dy[i] : fy;
+        if (isValid && shift(grid2num[nLoc[0] + dx[i]][nLoc[1] + dy[i]], nfx, nfy)) {
+          hasChanged = flip(nLoc[0], nLoc[1], dx[i], dy[i]);
+          break;
+        }
       }
     }
   }
 
   if (hasChanged) {
-    $('.piece').each((i, e) => {
-      if (parseInt($(e).attr('data-number'), 10) === n) {
-        $(e).attr('data-x', num2grid[n][0]);
-        $(e).attr('data-y', num2grid[n][1]);
-      }
-    });
+    refresh();
     if (hasWon()) {
-      $('h2 span').html('home');
-      if (!$('#woohoo').hasClass('active')) {
-        $('#woohoo').addClass('active');
-      }
+      window.setTimeout(() => {
+        $('h2 span').html('home');
+        if (!$('#woohoo').hasClass('active')) {
+          $('#woohoo').addClass('active');
+        }
+      }, 500);
     }
+    return true;
   }
-
+  return false;
 };
 
 const hasWon = () => {
@@ -50,8 +69,7 @@ const hasWon = () => {
   let old = 0;
   for (let y = 0; y < 4; y++) {
     for (let x = 0; x < 4; x++) {
-      console.log(`${grid2num[x][y]}, ${old + 1}`);
-      if (x !== 3 && y !== 3) {
+      if (x < 3 || y < 3) {
         if (grid2num[x][y] === (old + 1)) {
           old++;
         } else {
@@ -89,12 +107,7 @@ const resetBoard = () => {
   }
 
   console.log('Reset board!');
-
-  $('.piece').each((i, e) => {
-    const  n = parseInt($(e).attr('data-number'), 10);
-    $(e).attr('data-x', num2grid[n][0]);
-    $(e).attr('data-y', num2grid[n][1]);
-  });
+  refresh();
 
   $('h2 span').html('not home');
   if ($('#woohoo').hasClass('active')) {
@@ -104,6 +117,26 @@ const resetBoard = () => {
 
 resetBoard();
 $('#retry').click(() => resetBoard());
+
+$('#skip').click(() => {
+  console.log('Skip board!');
+  let i = 1;
+  for (let y = 0; y < 4; y++) {
+    for (let x = 0; x < 4; x++) {
+      const j = i === 15 ? 0 : (i === 16 ? 15 : i);
+      i++;
+      grid2num[x][y] = j;
+      num2grid[j][0] = x;
+      num2grid[j][1] = y;
+    }
+  }
+  refresh();
+
+  $('h2 span').html('not home');
+  if ($('#woohoo').hasClass('active')) {
+    $('#woohoo').removeClass('active');
+  }
+});
 
 $('.piece').each((i, e) => {
   $(e).click(() => shift(parseInt($(e).attr('data-number'), 10)));

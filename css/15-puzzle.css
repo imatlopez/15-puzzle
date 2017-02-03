@@ -246,10 +246,10 @@ footer .site
     border: 1px solid #818a91;
 }
 
-#retry
+#retry,
+#skip
 {
     position: absolute;
-    top: 0;
     right: -1.5rem;
 
     color: #818a91;
@@ -257,9 +257,20 @@ footer .site
     background-color: none;
 }
 
-#retry:active
+#retry:active,
+#skip:active
 {
     color: black;
+}
+
+#retry
+{
+    top: 0;
+}
+
+#skip
+{
+    top: 1.5rem;
 }
 
 #woohoo
@@ -304,6 +315,9 @@ footer .site
     height: calc(25% - 2px);
     margin: 1px;
 
+    -webkit-transition: all .3s ease-in-out;
+         -o-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
     text-align: center;
 }
 
@@ -315,8 +329,7 @@ footer .site
 .piece[data-number='11'],
 .piece[data-number='14']
 {
-    color: white;
-    background-color: #001a57;
+    background-color: #7bafd4;
 }
 
 .piece[data-number='2'],
@@ -328,7 +341,8 @@ footer .site
 .piece[data-number='13'],
 .piece[data-number='15']
 {
-    background-color: #7bafd4;
+    color: white;
+    background-color: #001a57;
 }
 
 .piece[data-x='0']
