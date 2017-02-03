@@ -1,0 +1,30 @@
+// Section height
+//
+section,
+footer {
+  padding-top: $grid-gutter-width;
+  padding-bottom: $grid-gutter-width;
+  h3 {
+    width: 100%;
+    font-variant: small-caps;
+    text-align: center;
+  }
+  &.tall {
+    padding-top: 2 * $grid-gutter-width;
+    padding-bottom: 2 * $grid-gutter-width;
+  }
+  &.narrow {
+    padding: 0;
+    margin: 0;
+  }
+  &.tall-offset {
+    position: relative;
+    padding: 0;
+  }
+  .site {
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    text-align: center;
+  }
+}

@@ -1,0 +1,14 @@
+// Flex
+@mixin flex-parent($pos-x: space-around, $pos-y: space-around, $size-y: stretch, $flow: row nowrap) {
+  align-content: $pos-y;
+  align-items: $size-y;
+  display: flex;
+  flex-flow: $flow;
+  justify-content: $pos-x;
+}
+
+@mixin flex-child($size-x: auto, $grow: 0, $shrink: 1, $align: auto, $order: 1) {
+  align-self: $align;
+  flex: $grow $shrink $size-x;
+  order: $order;
+}
