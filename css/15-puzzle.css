@@ -316,7 +316,7 @@ footer .site
 .piece[data-number='12'],
 .piece[data-number='14']
 {
-    background-color: red;
+    background-color: #001a57;
 }
 
 .piece[data-number='2'],
@@ -328,7 +328,7 @@ footer .site
 .piece[data-number='13'],
 .piece[data-number='15']
 {
-    background-color: blue;
+    background-color: #7bafd4;
 }
 
 .piece[data-x='0']
