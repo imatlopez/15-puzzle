@@ -316,6 +316,7 @@ footer .site
 .piece[data-number='12'],
 .piece[data-number='14']
 {
+    color: white;
     background-color: #001a57;
 }
 
